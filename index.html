@@ -85,7 +85,7 @@
                         <i class="fa fa-key mr-2"></i> 生成验证码
                     </button>
                 </div>
-                <p class="text-xs text-gray-400 mt-2">示例密钥: XCDINALI5EQCQA5S</p>
+                <p class="text-xs text-gray-400 mt-2">示例密钥: XCDINALI5EQCQA5S 或 HQ6KBMKBJ3IOLTBW</p>
             </div>
             
             <!-- 验证码显示区域 -->
@@ -128,7 +128,7 @@
         
         <!-- 页脚 -->
         <footer class="mt-8 text-center text-gray-400 text-sm">
-            <p>© 2025 简易2FA验证码生成器 | 验证码有效期为30秒</p>
+            <p>© 2025 简易2FA验证码生成器 | 验证码有效期为30秒 | 没有灵魂的卖家</p>
         </footer>
     </div>
     
@@ -267,6 +267,9 @@
             
             const period = 30; // 固定30秒有效期
             
+            // 立即更新一次验证码
+            updateOTP();
+            
             countdownInterval = setInterval(() => {
                 const now = Date.now();
                 const seconds = Math.floor(now / 1000);
@@ -281,12 +284,23 @@
                 
                 // 如果剩余时间为0，更新OTP
                 if (remaining === 0) {
-                    if (currentTotp) {
-                        const token = currentTotp.generate();
-                        otpCode.textContent = token;
-                    }
+                    updateOTP();
                 }
             }, 1000);
+        }
+        
+        // 更新OTP
+        function updateOTP() {
+            if (currentTotp) {
+                const token = currentTotp.generate();
+                otpCode.textContent = token;
+                
+                // 添加动画效果
+                otpCode.classList.add('scale-110');
+                setTimeout(() => {
+                    otpCode.classList.remove('scale-110');
+                }, 300);
+            }
         }
         
         // 添加到历史记录
